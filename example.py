@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request
+from flask import request, make_response
 
 
 app = Flask(__name__)
@@ -11,9 +11,14 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/not_found')
-def not_found():
-    return 'Oops!', 404
+@app.route('/json/')
+def json():
+    return {'json': 42}
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return f'Страница не найдена {error}', 404
 
 
 @app.get('/users')
@@ -29,3 +34,13 @@ def users():
 @app.route('/courses/<id>')
 def courses(id):
     return f'Course id: {id}'
+
+
+@app.route('/foo')
+def foo():
+    response = make_response('foo')
+    response.headers['alex_master'] = 'hello, alex'
+    response.mimetype = 'text/plain'
+    response.status_code = 200
+    response.set_cookie('foo', 'alex')
+    return response
