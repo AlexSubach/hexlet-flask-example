@@ -3,6 +3,7 @@ from flask import request, make_response, render_template
 
 
 app = Flask(__name__)
+users = ['mike', 'mishel', 'adel', 'keks', 'kamila']
 
 
 @app.route('/')
@@ -13,29 +14,23 @@ def hello_world():
 
 @app.errorhandler(404)
 def not_found(error):
-    return f'Страница не найдена {error}', 404
+    return 'Страница не найдена!', 404
 
 
-@app.get('/users')
-def users_get():
-    return 'GET /users'
+@app.route('/users/')
+def get_users():
+    filtered_user = []
+    term = request.args.get('term', default=None)
+    for user in users:
+        if term in user:
+            filtered_user.append(user)
+    return render_template(
+        'users/index.html',
+        users=filtered_user,
+        search=term
+    )
 
 
-@app.route('/users/<id>')
-def users(id):
-    return render_template('users/show.html', name=id)
-
-
-@app.route('/courses/<id>')
-def courses(id):
-    return f'Course id: {id}'
-
-
-@app.route('/foo')
-def foo():
-    response = make_response('foo')
-    response.headers['alex_master'] = 'hello, alex'
-    response.mimetype = 'text/plain'
-    response.status_code = 200
-    response.set_cookie('foo', 'alex')
-    return response
+# @app.route('/users/<id>')
+# def users(id):
+#     return render_template('users/show.html', name=id)
