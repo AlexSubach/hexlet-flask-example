@@ -9,6 +9,7 @@ packages = [{include = "hexlet_flask_example"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 flask = "^2.2.2"
+jinja2 = "^3.1.2"
 
 
 [build-system]

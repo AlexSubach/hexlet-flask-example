@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, make_response
+from flask import request, make_response, render_template
 
 
 app = Flask(__name__)
@@ -9,11 +9,6 @@ app = Flask(__name__)
 def hello_world():
     print(request.headers)
     return 'Hello, World!'
-
-
-@app.route('/json/')
-def json():
-    return {'json': 42}
 
 
 @app.errorhandler(404)
@@ -26,9 +21,9 @@ def users_get():
     return 'GET /users'
 
 
-@app.post('/users')
-def users():
-    return 'Users', 302
+@app.route('/users/<id>')
+def users(id):
+    return render_template('users/show.html', name=id)
 
 
 @app.route('/courses/<id>')
