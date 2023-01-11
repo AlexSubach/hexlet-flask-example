@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Register new user</title>
+    </head>
+    <body>
+        <form action="/users" method="post">
+            <div>
+                <label>
+                    Nickname:
+                    <input type="text" name="nickname" value="{{ user.nickname }}">
+                </label>
+                {% if errors['nickname'] %}
+                    <div>{{ errors['nickname'] }}</div>
+                {% endif %}
+            </div>
+            <br>
+            <div>
+                <label>
+                    Email:
+                    <input type="email" name="email" value="{{ user.email }}">
+                </label>
+                {% if errors['email'] %}
+                    <div>{{ errors['email'] }}</div>
+                {% endif %}
+            </div>
+            <br>
+            <input type="submit" value="Register">
+        </form>
+    </body>
+</html>
