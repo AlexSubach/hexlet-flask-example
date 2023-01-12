@@ -5,7 +5,10 @@
         <title>Register new user</title>
     </head>
     <body>
-        <form action="/users" method="post">
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+        <form action="{{ url_for('users_post') }}" method="post">
             <div>
                 <label>
                     Nickname:

@@ -1,18 +1,16 @@
 import json
-import os
 
 from flask import Flask
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, url_for, flash
 from templates.users import support
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.secret_key = 'dfdsgfgsdf345676gfknsdrlnq3rythgryt78865eld'
 
 
 @app.route('/')
-def hello_world():
-    print(request.headers)
-    return 'Hello, World!'
+def index():
+    return render_template('/users/index.html')
 
 
 @app.errorhandler(404)
@@ -39,7 +37,7 @@ ID: int = 0
 
 # noinspection PyTypeChecker
 @app.post('/users')
-def users_rost():
+def users_post():
     global ID
     ID += 1
     user = request.form.to_dict()
@@ -49,7 +47,8 @@ def users_rost():
         return render_template('/users/new.html', user=user, errors=errors)
     with open('templates/users/users.json', 'a') as file:
         file.write(json.dumps(user, indent=4))
-    return redirect('/users/new', code=302)
+    flash('User was added successfully')
+    return redirect(url_for('user_new'), code=302)
 
 
 @app.route('/users/new')
